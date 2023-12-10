@@ -9,28 +9,45 @@ int starpoints[RESTAURANT_NUM]; // 별점을 저장하기 위한 배열
 int tastepoints[RESTAURANT_NUM]; // 가중치를 저장하기 위한 함수
 
 int tastePoint = 0; // 취향점수를 저장하기 위한 변수
+int sameReview = 0; // 리뷰가 같은지 다른지를 판단하기 위한 변수
+int k = 0;
 
 // 기능 구현을 위한 5명의 다른 이용자 리뷰
 char A_review_task[RESTAURANT_NUM][RESTAURANT_NAME] = { {"b"},{"c"},{"d"},{"e"},{"g"} }; // 음식점 이름
 int A_starpoints[RESTAURANT_NUM] = { 2,1,4,4,4 }; // 별점
 int A_totalTastePoint = 0; // 가중치 저장을 위한 변수
+float A_newStarPoint; // 가중치를 적용하여 재계산한 별점
+char A_newRecommend[RESTAURANT_NUM][RESTAURANT_NAME] = { "" }; // A의 새로운 음식점 추천 이름을 저장할 배열
+int A_newStarPoints[RESTAURANT_NUM]; // A의 새로운 음식점 추천 별점을 저장할 배열
 
 // 밑은 A와 구조가 동일한 다른 4명의 정보들 
 char B_review_task[RESTAURANT_NUM][RESTAURANT_NAME] = { {"b"},{"c"},{"d"},{"e"},{"g"} };
 int B_starpoints[RESTAURANT_NUM] = { 4,5,4,4,3 };
 int B_totalTastePoint = 0;
+float B_newStarPoint;
+char B_newRecommend[RESTAURANT_NUM][RESTAURANT_NAME] = { "" };
+int B_newStarPoints[RESTAURANT_NUM];
 
 char C_review_task[RESTAURANT_NUM][RESTAURANT_NAME] = { {"a"},{"b"},{"d"},{"f"},{"g"} };
 int C_starpoints[RESTAURANT_NUM] = { 4,3,1,2,4 };
 int C_totalTastePoint = 0;
+float C_newStarPoint;
+char C_newRecommend[RESTAURANT_NUM][RESTAURANT_NAME] = { "" };
+int C_newStarPoints[RESTAURANT_NUM];
 
 char D_review_task[RESTAURANT_NUM][RESTAURANT_NAME] = { {"a"},{"b"},{"c"},{"h"},{"f"} };
 int D_starpoints[RESTAURANT_NUM] = { 3,5,5,4,5 };
 int D_totalTastePoint = 0;
+float D_newStarPoint;
+char D_newRecommend[RESTAURANT_NUM][RESTAURANT_NAME] = { "" };
+int D_newStarPoints[RESTAURANT_NUM];
 
 char E_review_task[RESTAURANT_NUM][RESTAURANT_NAME] = { {"a"},{"c"},{"d"},{"e"},{"f"} };
 int E_starpoints[RESTAURANT_NUM] = { 4,3,4,5,3 };
 int E_totalTastePoint = 0;
+float E_newStarPoint;
+char E_newRecommend[RESTAURANT_NUM][RESTAURANT_NAME] = { "" };
+int E_newStarPoints[RESTAURANT_NUM];
 
 
 int restaurantCount = 0; //리뷰 목록에 저장된 음식점의 수
@@ -94,6 +111,86 @@ void searchTasteReview() {
 
 	}
 }
+
+// 가중치를 적용하여 새로운 음식점 추천
+void newStarPoint() {
+	// A에 대한 계산
+	for (int j = 0; j < RESTAURANT_NUM; j++) {
+		sameReview = 0;
+		for (int i = 0; i < restaurantCount; i++) {
+			if (strcmp(review_task[i], A_review_task[j]) == 0) { // 내가 리뷰한 음식점 중복시 패스
+				sameReview = 1;
+			}
+		}
+		if (sameReview == 0) { // 음식점 중복이 아닐시(새로운 음식점) 가중치 별점 계산
+			strcpy_s(A_newRecommend[k], sizeof(A_newRecommend[k]), A_review_task[j]);
+			A_newStarPoint = (double)A_starpoints[j] * (double)A_totalTastePoint / 10; //새로운 별점
+			printf("%s:%f\n", A_newRecommend[k], A_newStarPoint);
+			k++;
+		}
+	}
+	// B에 대한 계산
+	for (int j = 0; j < RESTAURANT_NUM; j++) {
+		sameReview = 0;
+		for (int i = 0; i < restaurantCount; i++) {
+			if (strcmp(review_task[i], B_review_task[j]) == 0) { // 내가 리뷰한 음식점 중복시 패스
+				sameReview = 1;
+			}
+		}
+		if (sameReview == 0) { // 음식점 중복이 아닐시(새로운 음식점) 가중치 별점 계산
+			strcpy_s(B_newRecommend[k], sizeof(B_newRecommend[k]), B_review_task[j]);
+			B_newStarPoint = (double)B_starpoints[j] * (double)B_totalTastePoint / 10; //새로운 별점
+			printf("%s:%f\n", B_newRecommend[k], B_newStarPoint);
+			k++;
+		}
+	}
+	// C에 대한 계산
+	for (int j = 0; j < RESTAURANT_NUM; j++) {
+		sameReview = 0;
+		for (int i = 0; i < restaurantCount; i++) {
+			if (strcmp(review_task[i], C_review_task[j]) == 0) { // 내가 리뷰한 음식점 중복시 패스
+				sameReview = 1;
+			}
+		}
+		if (sameReview == 0) { // 음식점 중복이 아닐시(새로운 음식점) 가중치 별점 계산
+			strcpy_s(C_newRecommend[k], sizeof(C_newRecommend[k]), C_review_task[j]);
+			C_newStarPoint = (double)C_starpoints[j] * (double)C_totalTastePoint / 10; //새로운 별점
+			printf("%s:%f\n", C_newRecommend[k], C_newStarPoint);
+			k++;
+		}
+	}
+	// D에 대한 계산
+	for (int j = 0; j < RESTAURANT_NUM; j++) {
+		sameReview = 0;
+		for (int i = 0; i < restaurantCount; i++) {
+			if (strcmp(review_task[i], D_review_task[j]) == 0) { // 내가 리뷰한 음식점 중복시 패스
+				sameReview = 1;
+			}
+		}
+		if (sameReview == 0) { // 음식점 중복이 아닐시(새로운 음식점) 가중치 별점 계산
+			strcpy_s(D_newRecommend[k], sizeof(D_newRecommend[k]), D_review_task[j]);
+			D_newStarPoint = (double)D_starpoints[j] * (double)D_totalTastePoint / 10; //새로운 별점
+			printf("%s:%f\n", D_newRecommend[k], D_newStarPoint);
+			k++;
+		}
+	}
+	// E에 대한 계산
+	for (int j = 0; j < RESTAURANT_NUM; j++) {
+		sameReview = 0;
+		for (int i = 0; i < restaurantCount; i++) {
+			if (strcmp(review_task[i], E_review_task[j]) == 0) { // 내가 리뷰한 음식점 중복시 패스
+				sameReview = 1;
+			}
+		}
+		if (sameReview == 0) { // 음식점 중복이 아닐시(새로운 음식점) 가중치 별점 계산
+			strcpy_s(E_newRecommend[k], sizeof(E_newRecommend[k]), E_review_task[j]);
+			E_newStarPoint = (double)E_starpoints[j] * (double)E_totalTastePoint / 10; //새로운 별점
+			printf("%s:%f\n", E_newRecommend[k], E_newStarPoint);
+			k++;
+		}
+	}
+}
+
 int main() {
 	while (1) {
 		int choice = 0;
@@ -122,6 +219,7 @@ int main() {
 			printf("%d\n", C_totalTastePoint);
 			printf("%d\n", D_totalTastePoint);
 			printf("%d\n", E_totalTastePoint);
+			newStarPoint();
 			break;
 		case 4:
 			logout = 1;
